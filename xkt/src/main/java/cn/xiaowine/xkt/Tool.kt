@@ -60,14 +60,31 @@ object Tool {
     }
 
 
+    /**
+     * Base64decode
+     *
+     */
     fun String.base64Decode() = Base64.decode(this, Base64.DEFAULT).toString(Charsets.UTF_8)
 
+    /**
+     * Base64encode
+     *
+     */
     fun String.base64Encode() = Base64.encode(this.toByteArray(Charsets.UTF_8), Base64.DEFAULT).toString(Charsets.UTF_8)
 
-    fun String.md5(): String = BigInteger(1, MessageDigest.getInstance("MD5").digest(this.toByteArray())).toString(16)
+    /**
+     * Md5 encode
+     *
+     * @return
+     */
+    fun String.MD5Encode(): String = BigInteger(1, MessageDigest.getInstance("MD5").digest(this.toByteArray())).toString(16)
 
-    fun String.sha1(): String = BigInteger(1, MessageDigest.getInstance("SHA-1").digest(this.toByteArray())).toString(16)
-
+    /**
+     * Sha1 encode
+     *
+     * @return
+     */
+    fun String.SHA1Encode(): String = BigInteger(1, MessageDigest.getInstance("SHA-1").digest(this.toByteArray())).toString(16)
 
 
     /**
