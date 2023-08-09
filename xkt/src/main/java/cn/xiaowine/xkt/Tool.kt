@@ -2,6 +2,9 @@ package cn.xiaowine.xkt
 
 import android.os.Handler
 import android.os.Looper
+import android.util.Base64
+import java.math.BigInteger
+import java.security.MessageDigest
 import java.util.regex.Pattern
 import kotlin.properties.ObservableProperty
 import kotlin.properties.ReadWriteProperty
@@ -13,7 +16,7 @@ object Tool {
      * Handle null characters
      *
      */
-    fun String.handleNullCharacters() = this.regexReplace(" ", "").regexReplace("\n", "")
+    fun String.handleNullCharacters() = this.regexReplace("\n| ", "")
 
     /**
      * Regex replace
@@ -55,6 +58,16 @@ object Tool {
             }
         }
     }
+
+
+    fun String.base64Decode() = Base64.decode(this, Base64.DEFAULT).toString(Charsets.UTF_8)
+
+    fun String.base64Encode() = Base64.encode(this.toByteArray(Charsets.UTF_8), Base64.DEFAULT).toString(Charsets.UTF_8)
+
+    fun String.md5(): String = BigInteger(1, MessageDigest.getInstance("MD5").digest(this.toByteArray())).toString(16)
+
+    fun String.sha1(): String = BigInteger(1, MessageDigest.getInstance("SHA-1").digest(this.toByteArray())).toString(16)
+
 
 
     /**

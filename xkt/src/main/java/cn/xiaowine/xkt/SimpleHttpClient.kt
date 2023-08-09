@@ -4,7 +4,8 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
-//HttpURLConnection太基础了，除了拿来简单的get，其他的都不太好用，所以这里就不写了，建议复杂的还是使用Okhttp
+
+//HttpURLConnection太基础了，除了拿来简单的get，其他的都不太好用，所以这里就不写其他请求了，建议复杂的还是使用Okhttp
 object SimpleHttpClient {
 
     /**
