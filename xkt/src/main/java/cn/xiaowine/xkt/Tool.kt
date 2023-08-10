@@ -51,7 +51,7 @@ object Tool {
      * @param onChange
      * @return
      */
-    inline fun <T> observable(initialValue: T, crossinline onChange: (property: KProperty<*>, oldValue: T, newValue: T) -> Unit): ReadWriteProperty<Any?, T> = object : ObservableProperty<T>(initialValue) {
+    inline fun <T> observableChange(initialValue: T, crossinline onChange: (property: KProperty<*>, oldValue: T, newValue: T) -> Unit): ReadWriteProperty<Any?, T> = object : ObservableProperty<T>(initialValue) {
         override fun afterChange(property: KProperty<*>, oldValue: T, newValue: T) {
             if (oldValue != newValue) {
                 onChange(property, oldValue, newValue)
