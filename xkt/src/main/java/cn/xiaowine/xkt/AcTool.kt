@@ -35,6 +35,7 @@ object AcTool {
     }
 
     fun isLandscape() = context.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+
     /**
      * Open url
      *
@@ -48,7 +49,7 @@ object AcTool {
      *
      * @param isShort
      */
-    fun Any?.showToast(isShort: Boolean) {
+    fun Any?.showToast(isShort: Boolean = false) {
         handler.post {
             Toast.makeText(context, this.toString(), if (isShort) Toast.LENGTH_SHORT else Toast.LENGTH_SHORT).show()
         }
