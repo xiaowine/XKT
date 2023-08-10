@@ -40,7 +40,7 @@ object AcTool {
      * Open url
      *
      */
-    fun String.openURl() {
+    fun String.openURL() {
         context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(this)))
     }
 
