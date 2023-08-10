@@ -86,6 +86,35 @@ object Tool {
      */
     fun String.SHA1Encode(): String = BigInteger(1, MessageDigest.getInstance("SHA-1").digest(this.toByteArray())).toString(16)
 
+    /**
+     * To upper first case
+     *
+     * @return
+     */
+    fun String.toUpperFirstCase(): String {
+        if (isNotEmpty()) {
+            val firstChar = this[0]
+            if (firstChar.isLowerCase()) {
+                return firstChar.uppercaseChar() + substring(1)
+            }
+        }
+        return this
+    }
+
+    /**
+     * To upper first case and lower others
+     *
+     * @return
+     */
+    fun String.toUpperFirstCaseAndLowerOthers(): String {
+        if (isNotEmpty()) {
+            val firstChar = this[0]
+            val restOfString = substring(1).lowercase()
+            return firstChar.uppercaseChar() + restOfString
+        }
+        return this
+    }
+
 
     /**
      * Is not null
