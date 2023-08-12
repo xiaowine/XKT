@@ -2,7 +2,7 @@ package cn.xiaowine.xkt
 
 import android.util.Log
 
-object LogTools {
+object LogTool {
     private const val maxLength = 4000
     private lateinit var tag: String
     private const val XP_TAG = "LSPosed-Bridge"
