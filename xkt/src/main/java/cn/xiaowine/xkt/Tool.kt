@@ -155,6 +155,24 @@ object Tool {
 
 
     /**
+     * Shift string
+     *
+     * @param content
+     * @param amount
+     * @return
+     */
+    fun shiftString(content: String, amount: Int): String {
+        val shiftedChars = CharArray(content.length)
+        for (i in content.indices) {
+            val originalChar = content[i]
+            val shiftedChar = (originalChar.toInt() + amount).toChar()
+            shiftedChars[i] = shiftedChar
+        }
+        return String(shiftedChars)
+    }
+
+
+    /**
      * Is not null
      *
      * @param T
