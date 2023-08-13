@@ -115,6 +115,27 @@ object Tool {
         return this
     }
 
+    /**
+     * Random string
+     */
+    val randomString get() = randomString(7)
+
+    /**
+     * Random string
+     *
+     * @param length
+     * @return
+     */
+    fun randomString(length: Int): String {
+        val str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        val random = java.util.Random()
+        val sb = StringBuilder()
+        for (i in 0 until length) {
+            val number = random.nextInt(62)
+            sb.append(str[number])
+        }
+        return sb.toString()
+    }
 
     /**
      * Is not null
