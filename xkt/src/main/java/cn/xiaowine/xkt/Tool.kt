@@ -4,6 +4,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Base64
 import java.math.BigInteger
+import java.nio.charset.Charset
 import java.security.MessageDigest
 import java.util.regex.Pattern
 import kotlin.properties.ObservableProperty
@@ -128,14 +129,30 @@ object Tool {
      */
     fun randomString(length: Int): String {
         val str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        val random = java.util.Random()
-        val sb = StringBuilder()
-        for (i in 0 until length) {
-            val number = random.nextInt(62)
-            sb.append(str[number])
-        }
-        return sb.toString()
+        return (1..length).map { str[java.util.Random().nextInt(str.length)] }.joinToString("")
     }
+
+
+    /**
+     * Latin to long
+     *
+     * @return
+     */
+    fun String.latinToLong(): Long {
+        val abc = "abcdefghijklmnopqrstuvwxyz"
+        if (all { it in abc }) {
+            return fold(0L) { acc, char ->
+                val index = abc.indexOf(char.lowercase())
+                if (index == -1) {
+                    acc * 10 + (char - '0')
+                } else {
+                    acc * 10 + index
+                }
+            }
+        }
+        return 0L
+    }
+
 
     /**
      * Is not null
