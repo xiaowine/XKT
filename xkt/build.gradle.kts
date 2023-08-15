@@ -38,7 +38,7 @@ afterEvaluate {
             create<MavenPublication>("release") {
                 groupId = "com.github.xiaowine"
                 artifactId = "XKT"
-                version = "1.0.8"
+                version = "1.0.9"
                 from(components["release"])
             }
         }
