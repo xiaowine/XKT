@@ -41,7 +41,7 @@ object AcTool {
      *
      */
     fun String.openURL() {
-        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(this)))
+        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(this)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
     }
 
     /**
