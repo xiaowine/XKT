@@ -159,7 +159,7 @@ object Tool {
      * @param shift
      * @return
      */
-    fun String.shiftString(shift: Int = -3): String {
+    fun String.shiftStringTo3(shift: Int = -3): String {
         return shiftString(this, shift)
     }
     /**
