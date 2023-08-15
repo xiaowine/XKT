@@ -9,7 +9,7 @@ import android.graphics.PorterDuffXfermode
 import android.graphics.RectF
 
 class ViewTool {
-    private fun Bitmap.getRoundedCornerBitmap(cornerRadius: Float): Bitmap {
+    fun Bitmap.getRoundedCornerBitmap(cornerRadius: Float): Bitmap {
         val output = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(output)
         val paint = Paint(Paint.ANTI_ALIAS_FLAG)
