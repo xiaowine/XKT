@@ -140,17 +140,14 @@ object Tool {
      */
     fun String.latinToLong(): Long {
         val abc = "abcdefghijklmnopqrstuvwxyz"
-        if (all { it in abc }) {
-            return fold(0L) { acc, char ->
-                val index = abc.indexOf(char.lowercase())
-                if (index == -1) {
-                    acc * 10 + (char - '0')
-                } else {
-                    acc * 10 + index
-                }
+        return fold(0L) { acc, char ->
+            val index = abc.indexOf(char.lowercase())
+            if (index == -1) {
+                acc * 10 + (char - '0')
+            } else {
+                acc * 10 + index
             }
         }
-        return 0L
     }
 
     /**
@@ -159,7 +156,7 @@ object Tool {
      * @param shift
      * @return
      */
-    fun String.shiftStringTo3(shift: Int = -3): String {
+    fun String.shiftString2(shift: Int = -3): String {
         return shiftString(this, shift)
     }
     /**
