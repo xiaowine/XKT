@@ -21,4 +21,15 @@ object ViewTool {
         return output
     }
 
+    fun createSolidColorBitmap(width: Int, height: Int, color: Int): Bitmap {
+        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        val paint = Paint().apply {
+            this.color = color
+        }
+        canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
+        return bitmap
+    }
+
+
 }
