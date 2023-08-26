@@ -55,7 +55,7 @@ object AcTool {
      * @param predicate [Boolean] 显示条件，为false时不显示，默认null
      * @return [T] 返回自身
      */
-    fun <T> T?.showToast(duration: Int = Toast.LENGTH_SHORT, predicate: (() -> Boolean)?): T? {
+    fun <T> T?.showToast(duration: Int = Toast.LENGTH_SHORT, predicate: (() -> Boolean)? = null): T? {
         if (predicate?.invoke() == false) return this
         handler.post {
             Toast.makeText(context, this.toString(), duration).show()

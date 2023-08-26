@@ -18,7 +18,7 @@ object LogTool {
      * @param predicate [Unit] 显示条件
      * @param printXp [Boolean] 是否打印到Xposed日志
      */
-    fun init(tag: String, predicate: (() -> Boolean)?, printXp: Boolean = false, maxLength: Int = 4000) {
+    fun init(tag: String, predicate: (() -> Boolean)?= null, printXp: Boolean = false, maxLength: Int = 4000) {
         this.tag = tag
         this.printXp = printXp
         this.predicate = predicate?.invoke() ?: true
