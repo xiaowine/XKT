@@ -1,20 +1,39 @@
 package cn.xiaowine.xkt
 
+import android.health.connect.datatypes.units.Length
 import android.util.Log
 
 object LogTool {
-    private const val maxLength = 4000
+    private var maxLength = 4000
     private lateinit var tag: String
     private const val XP_TAG = "LSPosed-Bridge"
-    private var isDebug = true
+    private var predicate = true
+    private var printXp = true
 
-    fun init(tag: String, isDebug: Boolean) {
+
+    /**
+     * 初始化LogTool
+     *
+     * @param tag [String] Log的tag
+     * @param predicate [Unit] 显示条件
+     * @param printXp [Boolean] 是否打印到Xposed日志
+     */
+    fun init(tag: String, predicate: (() -> Boolean)?, printXp: Boolean = false, maxLength: Int = 4000) {
         this.tag = tag
-        this.isDebug = isDebug
+        this.printXp = printXp
+        this.predicate = predicate?.invoke() ?: true
+        this.maxLength = maxLength
     }
 
-    fun <T> T?.log(): T? {
-        if (!isDebug) return this
+
+    /**
+     * 打印日志
+     * @receiver [T] 打印的内容
+     * @param level [LogLevel] 日志等级
+     * @return [T] 返回自身
+     */
+    fun <T> T?.log(level: LogLevel = LogLevel.DEBUG): T? {
+        if (!predicate) return this
         val content = if (this is Throwable) Log.getStackTraceString(this) else this.toString()
         if (content.length > maxLength) {
             val chunkCount = content.length / maxLength
@@ -25,14 +44,34 @@ object LogTool {
                 } else {
                     content.substring(maxLength * i, max)
                 }
-                Log.d(tag, value)
-                Log.d(XP_TAG, "$tag:$value")
+                print(tag, value, level)
+                if (printXp) print(XP_TAG, "$tag:$value", level)
             }
 
         } else {
-            Log.d(tag, content)
-            Log.d(XP_TAG, "$tag:$content")
+            print(tag, content, level)
+            if (printXp) print(XP_TAG, "$tag:$content", level)
         }
         return this
     }
+
+    private fun print(tag: String, content: String, level: LogLevel) {
+        when (level) {
+            LogLevel.VERBOSE -> Log.v(tag, content)
+            LogLevel.DEBUG -> Log.d(tag, content)
+            LogLevel.INFO -> Log.i(tag, content)
+            LogLevel.WARN -> Log.w(tag, content)
+            LogLevel.ERROR -> Log.e(tag, content)
+            LogLevel.ASSERT -> Log.wtf(tag, content)
+        }
+    }
+}
+
+enum class LogLevel {
+    VERBOSE,
+    DEBUG,
+    INFO,
+    WARN,
+    ERROR,
+    ASSERT
 }

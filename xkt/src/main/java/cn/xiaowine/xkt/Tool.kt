@@ -14,17 +14,18 @@ import kotlin.reflect.KProperty
 object Tool {
 
     /**
-     * Handle null characters
-     *
+     * 处理空字符
+     * @receiver [String] 原字符串
+     * @return [String] 处理后的字符串
      */
-    fun String.handleNullCharacters() = this.regexReplace("\n| ", "")
+    fun String.handleNullCharacters(): String = this.regexReplace("\n| ", "")
 
     /**
-     * Regex replace
-     *
-     * @param pattern
-     * @param newString
-     * @return
+     * 正则表达式替换字符串
+     * @receiver [String] 原字符串
+     * @param pattern [String] 正则表达式
+     * @param newString [String] 替换的字符串
+     * @return [String] 替换后的字符串
      */
     fun String.regexReplace(pattern: String, newString: String): String {
         val m = Pattern.compile("(?i)$pattern").matcher(this)
@@ -32,11 +33,11 @@ object Tool {
     }
 
     /**
-     * Go main thread
+     * 转到主线程
      *
-     * @param delayed
-     * @param callback
-     * @return
+     * @param delayed [Long] 延迟时间
+     * @param callback [Unit] 回调函数
+     * @return [Boolean] 是否成功
      */
     fun goMainThread(delayed: Long = 0, callback: () -> Unit): Boolean {
         return Handler(Looper.getMainLooper()).postDelayed({
@@ -45,12 +46,11 @@ object Tool {
     }
 
     /**
-     * Observable
+     * 侦测数据变化
      *
-     * @param T
-     * @param initialValue
-     * @param onChange
-     * @return
+     * @param initialValue [T] 初始值
+     * @param onChange [Unit] 回调函数
+     * @return [ReadWriteProperty] 侦测数据变化
      */
     inline fun <T> observableChange(initialValue: T, crossinline onChange: (property: KProperty<*>, oldValue: T, newValue: T) -> Unit): ReadWriteProperty<Any?, T> = object : ObservableProperty<T>(initialValue) {
         override fun afterChange(property: KProperty<*>, oldValue: T, newValue: T) {
@@ -62,35 +62,44 @@ object Tool {
 
 
     /**
-     * Base64decode
-     *
+     * Base64 解码
+     * @receiver [String] 原字符串
+     * @return [String] 解码后的字符串
      */
-    fun String.base64Decode() = Base64.decode(this, Base64.DEFAULT).toString(Charsets.UTF_8)
+    fun String.base64Decode(): String = Base64.decode(this, Base64.DEFAULT).toString(Charsets.UTF_8)
 
     /**
-     * Base64encode
-     *
+     * Base64 编码
+     * @receiver [String] 原字符串
+     * @return [String] 编码后的字符串
      */
     fun String.base64Encode() = Base64.encode(this.toByteArray(Charsets.UTF_8), Base64.DEFAULT).toString(Charsets.UTF_8)
 
     /**
-     * Md5 encode
-     *
-     * @return
+     * MD5 编码
+     * @receiver [String] 原字符串
+     * @return [String] 编码后的字符串
      */
     fun String.MD5Encode(): String = BigInteger(1, MessageDigest.getInstance("MD5").digest(this.toByteArray())).toString(16)
 
     /**
-     * Sha1 encode
-     *
-     * @return
+     * Sha1 编码
+     * @receiver [String] 原字符串
+     * @return [String] 编码后的字符串
      */
     fun String.SHA1Encode(): String = BigInteger(1, MessageDigest.getInstance("SHA-1").digest(this.toByteArray())).toString(16)
 
     /**
-     * To upper first case
-     *
-     * @return
+     * Sha256 编码
+     * @receiver [String] 原字符串
+     * @return [String] 编码后的字符串
+     */
+    fun String.SHA256Encode(): String = BigInteger(1, MessageDigest.getInstance("SHA-256").digest(this.toByteArray())).toString(16)
+
+    /**
+     * 大写第一个字母
+     * @receiver [String] 原字符串
+     * @return [String] 处理后的字符串
      */
     fun String.toUpperFirstCase(): String {
         if (isNotEmpty()) {
@@ -103,9 +112,9 @@ object Tool {
     }
 
     /**
-     * To upper first case and lower others
-     *
-     * @return
+     * 大写第一个字母，其余小写
+     * @receiver [String] 原字符串
+     * @return [String] 处理后的字符串
      */
     fun String.toUpperFirstCaseAndLowerOthers(): String {
         if (isNotEmpty()) {
@@ -117,15 +126,16 @@ object Tool {
     }
 
     /**
-     * Random string
+     * 随机生成7位数字符串
+     * @return [String] 随机生成的字符串
      */
     val randomString get() = randomString(7)
 
     /**
-     * Random string
+     * 随机生成数字符串
      *
-     * @param length
-     * @return
+     * @param length [Int] 长度
+     * @return [String] 随机生成的字符串
      */
     fun randomString(length: Int): String {
         val str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -134,9 +144,9 @@ object Tool {
 
 
     /**
-     * Latin to long
-     *
-     * @return
+     * 字母转数字
+     * @receiver [String] 原字符串
+     * @return [Long] 转换后的数字
      */
     fun String.latinToLong(): Long {
         val abc = "abcdefghijklmnopqrstuvwxyz"
@@ -151,38 +161,26 @@ object Tool {
     }
 
     /**
-     * Shift string
-     *
-     * @param shift
+     * 移位字符串
+     * @receiver [String] 原字符串
+     * @param amount [Int] 移位数
      * @return
      */
-    fun String.shiftString2(shift: Int = -3): String {
-        return shiftString(this, shift)
-    }
-    /**
-     * Shift string
-     *
-     * @param content
-     * @param amount
-     * @return
-     */
-    fun shiftString(content: String, amount: Int): String {
-        val shiftedChars = CharArray(content.length)
-        for (i in content.indices) {
-            val originalChar = content[i]
-            val shiftedChar = (originalChar.toInt() + amount).toChar()
+    fun String.shiftString2(amount: Int = -3): String {
+        val shiftedChars = CharArray(this.length)
+        for (i in this.indices) {
+            val originalChar = this[i]
+            val shiftedChar = (originalChar.code + amount).toChar()
             shiftedChars[i] = shiftedChar
         }
         return String(shiftedChars)
     }
 
-
     /**
-     * Is not null
-     *
-     * @param T
-     * @param callback
-     * @return
+     * 判断是否为Null，不为Null则执行回调
+     * @receiver [Any] 判断对象
+     * @param callback [Unit] 回调函数
+     * @return [Boolean] 是否为Null
      */
     inline fun <T> T?.isNotNull(callback: (T) -> Unit): Boolean {
         if (this != null) {
@@ -193,23 +191,10 @@ object Tool {
     }
 
     /**
-     * Is not
-     *
-     * @param callback
-     * @receiver
-     */
-    inline fun Boolean.isNot(callback: () -> Unit) {
-        if (!this) {
-            callback()
-        }
-    }
-
-    /**
-     * Is null
-     *
-     * @param callback
-     * @receiver
-     * @return
+     * 判断是否为Null，为Null则执行回调
+     * @receiver [Any] 判断对象
+     * @param callback [Unit] 回调函数
+     * @return [Boolean] 是否为Null
      */
     inline fun Any?.isNull(callback: () -> Unit): Boolean {
         if (this == null) {
@@ -220,14 +205,26 @@ object Tool {
     }
 
     /**
-     * Is null
-     *
+     * 判断是否为Null
+     * @receiver [Any] 判断对象
      */
     fun Any?.isNull() = this == null
 
     /**
-     * Is not null
      *
+     * 判断是否不为Null
+     * @receiver [Any] 判断对象
      */
     fun Any?.isNotNull() = this != null
+
+
+    /**
+     * @receiver [Boolean] 是否为False，为False则执行回调
+     * @param callback [Unit] 回调函数
+     */
+    inline fun Boolean.isNot(callback: () -> Unit) {
+        if (!this) {
+            callback()
+        }
+    }
 }

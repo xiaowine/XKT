@@ -21,6 +21,7 @@ import kotlin.system.exitProcess
 object AcTool {
 
     lateinit var context: Context
+
     val activity: Activity by lazy { context as Activity }
 
     private val handler by lazy { Handler(Looper.getMainLooper()) }
@@ -28,35 +29,42 @@ object AcTool {
     /**
      * Init
      *
-     * @param context
+     * @param context [Context]
      */
     fun init(context: Context) {
         this.context = context
     }
 
-    fun isLandscape() = context.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
     /**
-     * Open url
-     *
+     * 判断当前是否为横屏
+     * @return [Boolean] true为横屏，false为竖屏
      */
-    fun String.openURL() {
-        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(this)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
-    }
+    fun isLandscape(): Boolean = context.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
     /**
-     * Show toast
-     *
-     * @param isShort
+     * 跳转浏览器打开网页
+     * @receiver [String] 网址
      */
-    fun Any?.showToast(isShort: Boolean = false) {
+    fun String.openURL() = context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(this)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+
+    /**
+     * 显示Toast，可任意线程调用
+     * @receiver [T] 显示内容
+     * @param duration [Int] 显示时长，与Toast相同，默认Toast.LENGTH_SHORT
+     * @param predicate [Boolean] 显示条件，为false时不显示，默认null
+     * @return [T] 返回自身
+     */
+    fun <T> T?.showToast(duration: Int = Toast.LENGTH_SHORT, predicate: (() -> Boolean)?): T? {
+        if (predicate?.invoke() == false) return this
         handler.post {
-            Toast.makeText(context, this.toString(), if (isShort) Toast.LENGTH_SHORT else Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, this.toString(), duration).show()
         }
+        return this
     }
 
     /**
-     * Restart app
+     * 重启App
      *
      */
     fun restartApp() {
@@ -69,14 +77,14 @@ object AcTool {
 
 
     /**
-     * Check installed
+     * 判断是否安装某个应用
      * Android11+ 注意权限
-     *
-     * @return [Boolean]
+     * @receiver [String] 获取软件包名
+     * @return [Boolean] true为已安装，false为未安装
      */
     fun String.checkInstalled(): Boolean {
         return try {
-            this.getAppInfo(PackageManager.GET_META_DATA)
+            this.getApplicationInfo(PackageManager.GET_META_DATA)
             true
         } catch (_: Exception) {
             false
@@ -84,23 +92,22 @@ object AcTool {
     }
 
     /**
-     * Get app info
-     *
-     * @return [ApplicationInfo?]
+     * 获取应用信息
+     * @receiver [String] 获取软件包名
+     * @param flags [PackageInfoFlags] 默认0
+     * @return [ApplicationInfo]
      */
-    fun String.getAppInfo(flags: Int = 0): ApplicationInfo {
+    fun String.getApplicationInfo(flags: Int = 0): ApplicationInfo {
         return context.packageManager.getApplicationInfo(this, flags)
     }
 
 
     /**
-     * Get app info
-     *
-     * @return [List<PackageInfo]
+     * 获取所有应用信息
+     * @param flags [PackageInfoFlags] 默认0
+     * @return [PackageInfo] PackageInfo列表
      */
-    fun getAppInfo(flags: Int = 0): List<PackageInfo> {
+    fun getAllApplicationInfoInfo(flags: Int = 0): List<PackageInfo> {
         return context.packageManager.getInstalledPackages(flags)
     }
-
-
 }
