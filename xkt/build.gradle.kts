@@ -2,10 +2,8 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.dokkaLibrary) apply false
     id("maven-publish")
-}
-subprojects {
-    apply(plugin = "org.jetbrains.dokka")
 }
 
 android {
