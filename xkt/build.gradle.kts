@@ -4,6 +4,9 @@ plugins {
     alias(libs.plugins.kotlinAndroid)
     id("maven-publish")
 }
+subprojects {
+    apply(plugin = "org.jetbrains.dokka")
+}
 
 android {
     namespace = "cn.xiaowine.xkt"
