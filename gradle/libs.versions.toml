@@ -1,8 +1,10 @@
 [versions]
 agp = "8.1.1"
+dokka-gradle-plugin = "1.8.20"
 kotlin = "1.9.0"
 
 [libraries]
+dokka-gradle-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka-gradle-plugin" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

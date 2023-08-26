@@ -2,7 +2,7 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
-    alias(libs.plugins.dokkaLibrary) apply false
+    id("org.jetbrains.dokka")
     id("maven-publish")
 }
 
