@@ -227,4 +227,13 @@ object Tool {
             callback()
         }
     }
+
+
+    /**
+     * IntColor装十六进制
+     *
+     * @receiver [Int] IntColor
+     * @return [String] 十六进制颜色
+     */
+    fun Int.int2Hex(): String = "#%08X".format(this)
 }
