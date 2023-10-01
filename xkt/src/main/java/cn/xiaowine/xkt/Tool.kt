@@ -14,6 +14,36 @@ import kotlin.reflect.KProperty
 object Tool {
 
     /**
+     * 加密字符串
+     *
+     * @param str [String] 原字符串
+     * @param key [String] 加密key
+     * @return [String] 加密后的字符串
+     */
+    fun encryptStr(str: String, key: String): String {
+        val sb = StringBuilder()
+        for (i in str.indices) {
+            sb.append((str[i].code xor key[i % key.length].code).toChar())
+        }
+        return sb.toString()
+    }
+
+    /**
+     * 解密字符串
+     *
+     * @param str [String] 原字符串
+     * @param key [String] 解密key
+     * @return [String] 解密后的字符串
+     */
+    fun decryptStr(str: String, key: String): String {
+        val sb = StringBuilder()
+        for (i in str.indices) {
+            sb.append((str[i].code xor key[i % key.length].code).toChar())
+        }
+        return sb.toString()
+    }
+
+    /**
      * 处理空字符
      * @receiver [String] 原字符串
      * @return [String] 处理后的字符串
